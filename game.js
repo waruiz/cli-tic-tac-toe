@@ -37,7 +37,7 @@ let player = 'O';
 
 let promptPlayer = function (player) {
   rl.question(
-    `Current board:\n\n${board}\n\nPlayer ${player} turn. 
+    `Current board:\n\n${stringifyBoard()}\n\nPlayer ${player} turn. 
     Enter board coordinates:\n\n`, function (coords) {
       console.log(`You entered coordinates: `, coords);
   });
