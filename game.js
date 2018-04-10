@@ -34,16 +34,35 @@ let player = 'O';
 //   output: process.stdout,
 // });
 
-// rl.question(
-//   `Current board:\n\n${board}\n\nPlayer ${player} turn. 
-//   Enter board coordinates:\n\n`, function (coords) {
-//     console.log(`You entered coordinates: `, coords);
-//   });
 
-let game = function () {
-  let tempBoard = board.map(row => row.join(' | '));
-  tempBoard = tempBoard.join('\n');
-  console.log(tempBoard);
+let promptPlayer = function (player) {
+  rl.question(
+    `Current board:\n\n${board}\n\nPlayer ${player} turn. 
+    Enter board coordinates:\n\n`, function (coords) {
+      console.log(`You entered coordinates: `, coords);
+  });
 };
 
-game();
+let logic = function (coords, player) {
+  let coordinates = data.toString().split('-');
+  coordinates = coordinates.map(char => char.split('\n')[0]);
+  let position = board[coordinates[0]][coordinates[1]];
+
+  if (position !== 'X' || position !== 'O') {
+    placePiece(player);
+
+    player = 'O' ? 'X' : 'O';
+  } else {
+    console.log(`Sorry player ${player}, this position is taken.\n
+    Please try a different board position.`)
+    promptPlayer(player);
+  }
+};
+
+let stringifyBoard = function () {
+  let tempBoard = board.map(row => row.join(' | '));
+  tempBoard = tempBoard.join('\n');
+  return tempBoard;
+};
+
+// game();
