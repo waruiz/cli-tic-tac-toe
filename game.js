@@ -34,24 +34,69 @@ let player = 'O';
 //   output: process.stdout,
 // });
 
+let gameContinues = true;
+
+let checkWinner = function (player) {
+  // Check rows
+  if ((board[0][0] === player) && (board[0][1] === player) && (board[0][2] === player)) {
+    console.log(`Player ${player} is winner!`);
+    gameContinues = false;
+  }
+  if ( (board[1][0] === player) && (board[1][1] === player) && (board[1][2] === player) ) {
+    console.log(`Player ${player} is winner!`);
+    gameContinues = false;
+  }
+  if ( (board[2][0] === player) && (board[2][1] === player) && (board[2][2] === player) ) {
+    console.log(`Player ${player} is winner!`);
+    gameContinues = false;
+  }
+
+  // Check columns
+  if ( (board[0][0] === player) && (board[1][0] === player) && (board[2][0] === player) ) {
+    console.log(`Player ${player} is winner!`);
+    gameContinues = false;
+  }
+  if ( (board[0][1] === player) && (board[1][1] === player) && (board[2][1] === player) ) {
+    console.log(`Player ${player} is winner!`);
+    gameContinues = false;
+  }
+  if ( (board[0][2] === player) && (board[1][2] === player) && (board[2][2] === player) ) {
+    console.log(`Player ${player} is winner!`);
+    gameContinues = false;
+  }
+
+  // Check diagonals
+  if ( (board[0][0] === player) && (board[1][1] === player) && (board[2][2] === player) ) {
+    console.log(`Player ${player} is winner!`);
+    gameContinues = false;
+  }
+  if ( (board[2][0] === player) && (board[1][1] === player) && (board[0][2] === player) ) {
+    console.log(`Player ${player} is winner!`);
+    gameContinues = false;
+  }
+};
+
 
 let promptPlayer = function (player) {
   rl.question(
     `Current board:\n\n${stringifyBoard()}\n\nPlayer ${player} turn. 
     Enter board coordinates:\n\n`, function (coords) {
-      console.log(`You entered coordinates: `, coords);
+      logic(coords, player);
   });
 };
 
 let logic = function (coords, player) {
-  let coordinates = data.toString().split('-');
+  let coordinates = coords.toString().split('-');
   coordinates = coordinates.map(char => char.split('\n')[0]);
   let position = board[coordinates[0]][coordinates[1]];
 
   if (position !== 'X' || position !== 'O') {
-    placePiece(player);
+    board[coordinates[0]][coordinates[1]] = player;
+
+    checkWinner(player);
 
     player = 'O' ? 'X' : 'O';
+    checkWinner(player);
   } else {
     console.log(`Sorry player ${player}, this position is taken.\n
     Please try a different board position.`)
@@ -66,3 +111,5 @@ let stringifyBoard = function () {
 };
 
 // game();
+
+
